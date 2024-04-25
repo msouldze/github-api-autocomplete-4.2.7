@@ -22,7 +22,7 @@
 }
 
 .search-list {
-    display: none;
+    display: block;
     list-style-type:  none;
 }
 
@@ -53,27 +53,30 @@
     margin-top: 2px;
 }
 
-.remove::before {
+.remove::before, .remove::after {
     content: '';
     position: absolute;
+    top: -2px;
+    left: 16px;
     width: 3px;
     height: 38px;
     background-color: #FF0000;
     transform: rotate(45deg);
 }
 
+.remove::before {
+    transform: rotate(45deg);
+}
+
 .remove::after {
-    content: '';
-    position: absolute;
-    width: 3px;
-    height: 38px;
-    background-color: #FF0000;
     transform: rotate(-45deg);
 }
 
 .remove {
     position: absolute;
-    top: 12px;
-    right: 35px;
+    top: 15px;
+    right: 20px;
+    width: 35px;
+    height: 35px;
     cursor: pointer;
 }
