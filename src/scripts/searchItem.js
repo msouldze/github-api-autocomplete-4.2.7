@@ -1,30 +1,34 @@
 import { debounce, createSearchItem } from "./utilities.js";
 
-const searchList = document.querySelector('.search-list');
-
 async function getRepos(value) {
     try {
-        const response = await fetch(`https://api.github.com/search/repositories?q=${value}&sort=stars&order=desc`)
+        const response = await fetch(`https://api.github.com/search/repositories?q=${value}+in:name&sort=stars&order=desc`, {
+            headers: {
+              'Accept': 'application/vnd.github+json'
+            }
+        })
         const { items: repos } = await response.json();
-        return repos;
+        return repos.slice(0, 5);
     } catch (err) {
         console.log(err);
     }
 }
 
-const updateInputElement = debounce((value) => render(searchList, value), 500)
+const updateInputElement = debounce((value) => render(value), 500)
 
-const render = async (element, value) => {
+const render = async (value) => {
+    const searchList = document.querySelector('.search-list');
     const responce = await getRepos(value);
-    element.innerHTML = '';
+    searchList.innerHTML = '';
 
-    for (let i = 0; i < 5; i += 1) {
+    for (let i = 0; i < responce.length; i += 1) {
         const item = createSearchItem(responce[i]);
-        element.appendChild(item);
+        searchList.append(item);
     }
 }
 
 export const search = (event) => {
+    const searchList = document.querySelector('.search-list');
     const { value } = event.target;
 
     if(value.length === 0) {

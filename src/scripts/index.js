@@ -1,3 +1,5 @@
 import { init } from "./render.js";
 
-init();
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+});
